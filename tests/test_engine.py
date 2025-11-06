@@ -18,18 +18,27 @@ def test_apply_and_turn_switch():
 
 
 def test_capture_rule_simple():
-    # Сценарий для захвата: у игрока 1 на лунке 0 один камень, напротив у соперника >0
     st = KalahState()
     n = st.n
-    st.board = [0]* (2*n + 2)
+    # Пустое поле, ходит Игрок 1
+    st.board = [0] * (2 * n + 2)
     st.player = 0
-    st.board[0] = 1
-    st.board[n + (n-1)] = 4  # напротив лунки 0 — индекс 2n-1
-    new_st, extra = st.apply(0)
-    assert new_st.board[2*n] == 5  # 4 + 1 в склад игрока 1
-    assert new_st.board[0] == 0
-    assert new_st.board[2*n - 1] == 0
 
+    # Подготовка к захвату:
+    # Лунка 3 у Игрока 1 будет пустой и станет местом приземления
+    # Лунка 2 содержит 1 камень -> ход из 2 приведёт к приземлению в 3
+    st.board[2] = 1
+    # Напротив лунки 3 находится индекс (2n-1-3)
+    opp_idx = 2 * n - 1 - 3  # = 2n - 4
+    st.board[n + (opp_idx - n)] = 0  # просто явное указание, не обязательно
+    st.board[opp_idx] = 4  # у соперника напротив есть 4 камня
+
+    new_st, extra = st.apply(2)  # ход из лунки 2 -> последний камень в 3 (пустая)
+
+    # В склад игрока 1 должны уйти 4 (противник) + 1 (наш последний)
+    assert new_st.board[2 * n] == 5
+    assert new_st.board[3] == 0
+    assert new_st.board[opp_idx] == 0
 
 def test_endgame_collection():
     st = KalahState()
