@@ -9,25 +9,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-      :root{
-        --bg:#0b1220; --card:#0e1629; --muted:#9aa4b2; --ring:#334155; --txt:#e5e7eb; --acc:#22c55e;
-        --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
-      }
+      :root{ --bg:#0b1220; --card:#0e1629; --muted:#9aa4b2; --ring:#334155; --txt:#e5e7eb;
+             --shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03) }
       @media (prefers-color-scheme: light){
-        :root{ --bg:#f7fafc; --card:#ffffff; --txt:#0f172a; --muted:#475569; --ring:#cbd5e1; }
+        :root{ --bg:#f7fafc; --card:#fff; --txt:#0f172a; --muted:#475569; --ring:#cbd5e1 }
       }
       *{box-sizing:border-box}
       html,body{height:100%}
-      body{margin:0;background:
-        radial-gradient(1000px 700px at 10% -10%, rgba(34,197,94,.12), transparent 60%),
-        radial-gradient(1000px 700px at 110% 20%, rgba(59,130,246,.12), transparent 60%),
-        var(--bg);
+      body{
+        margin:0;
+        background:
+          radial-gradient(1000px 700px at 10% -10%, rgba(34,197,94,.12), transparent 60%),
+          radial-gradient(1000px 700px at 110% 20%, rgba(59,130,246,.12), transparent 60%),
+          var(--bg);
         color:var(--txt); font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
         -webkit-tap-highlight-color:transparent
       }
       .wrap{max-width:1080px;margin:0 auto;padding:clamp(12px,2.5vw,28px)}
       header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-      .title{font-size:clamp(22px,3.5vw,32px);font-weight:800;letter-spacing:.2px;margin:0}
+      .title{font-size:clamp(22px,3.5vw,32px);font-weight:800;margin:0}
       .sub{margin:2px 0 0;color:var(--muted);font-size:clamp(12px,2.4vw,14px)}
       .grid{display:grid;grid-template-columns:1fr;gap:12px}
       @media (min-width:900px){.grid{grid-template-columns:360px 1fr}}
@@ -35,35 +35,39 @@
       .card{background:var(--card);border:1px solid var(--ring);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
       .card h3{margin:0 0 10px;font-size:16px}
 
-      /* BOARD */
+      /* Board layout */
       .board{display:grid;grid-template-columns:90px 1fr 90px;gap:12px;align-items:center}
       @media (max-width:520px){.board{grid-template-columns:72px 1fr 72px}}
       .pits{display:grid;gap:12px}
-      .store{min-height:100%;height:100%;border-radius:16px;border:1px solid var(--ring);
+      .row-gap{margin-top:18px}
+
+      /* Stores */
+      .store{
+        min-height:100%;height:100%;border-radius:16px;border:1px solid var(--ring);
         display:flex;flex-direction:column;justify-content:center;align-items:center;
-        background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));box-shadow:var(--shadow)}
+        background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+        box-shadow:var(--shadow)
+      }
       .store .label{font-size:12px;color:var(--muted)}
       .store .val{font-size:clamp(18px,3.8vw,22px);font-weight:800;margin-top:6px}
 
-      /* PIT as a real hole */
+      /* Round pits (real “holes”) */
       .pit{
-        position:relative; width:100%; aspect-ratio:1/1; border-radius:50%;
-        border:1px solid var(--ring); background:
+        position:relative;width:100%;aspect-ratio:1/1;border-radius:50%;
+        border:1px solid var(--ring);
+        background:
           radial-gradient(120% 120% at 50% 35%, rgba(0,0,0,.55), rgba(0,0,0,.15) 40%, rgba(255,255,255,.05) 65%, rgba(0,0,0,.25) 100%),
           linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
-        box-shadow:
-          inset 8px 10px 14px rgba(0,0,0,.45),
-          inset -4px -6px 10px rgba(255,255,255,.08),
-          var(--shadow);
+        box-shadow: inset 8px 10px 14px rgba(0,0,0,.45), inset -4px -6px 10px rgba(255,255,255,.08), var(--shadow);
         display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
-        transition:transform .08s ease, filter .2s ease, border-color .2s ease;
-        touch-action:manipulation
+        transition:transform .08s ease, filter .2s ease, border-color .2s ease; touch-action:manipulation
       }
       .pit:active{transform:translateY(1px) scale(.99)}
       .pit.disabled{opacity:.45;cursor:not-allowed;filter:saturate(.7)}
       .pit .idx{position:absolute;top:6px;left:8px;font-size:11px;color:var(--muted)}
       .pit .val{font-weight:800;font-size:clamp(16px,3.5vw,20px)}
 
+      /* Controls */
       .panel{display:flex;flex-wrap:wrap;gap:10px}
       .row{display:flex;gap:10px;align-items:center}
       .select,.input,button{appearance:none;background:var(--card);color:var(--txt);border:1px solid var(--ring);border-radius:12px;padding:10px 12px;font:inherit}
@@ -73,18 +77,18 @@
       .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--ring);color:var(--muted);font-size:12px}
       .status{margin-top:8px;font-weight:600}
 
+      /* Rules */
       details.rules{margin-top:10px}
-      details.rules>summary{cursor:pointer;list-style:none}
+      details.rules>summary{cursor:pointer;list-style:none;padding:8px 12px;border:1px dashed var(--ring);border-radius:12px;color:var(--muted)}
       details.rules>summary::-webkit-details-marker{display:none}
-      details.rules>summary{padding:8px 12px;border:1px dashed var(--ring);border-radius:12px;color:var(--muted)}
-      details.rules .content{padding:10px 12px 2px;color:var(--txt);line-height:1.5}
+      details.rules .content{padding:10px 12px 2px;line-height:1.5}
       details.rules li{margin:6px 0}
 
       footer{margin-top:16px;color:var(--muted);font-size:13px}
       a.link{color:#60a5fa;text-decoration:none}
 
       .toast{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--ring);padding:10px 12px;border-radius:12px;box-shadow:var(--shadow);font-size:14px}
-      @supports(padding:max(0px)){ body{padding-bottom:max(0px,env(safe-area-inset-bottom))} }
+      @supports(padding:max(0px)){body{padding-bottom:max(0px,env(safe-area-inset-bottom))}}
     </style>
   </head>
   <body>
@@ -95,8 +99,8 @@
           <p class="sub">Веб-версия для телефона, планшета и ПК. Правила Калаха: бонусный ход и захват.</p>
         </div>
         <div class="row" role="group" aria-label="quick actions">
-          <button id="newGame" class="primary" title="Новая игра">Новая игра</button>
-          <button id="undo" class="ghost" title="Отменить ход (шаг назад)">Отменить</button>
+          <button id="newGame" class="primary">Новая игра</button>
+          <button id="undo" class="ghost">Отменить</button>
         </div>
       </header>
 
@@ -104,7 +108,7 @@
         <section class="card" aria-label="Параметры игры">
           <h3>Настройки</h3>
           <div class="panel">
-            <label> Режим:
+            <label>Режим:
               <select id="aiMode" class="select">
                 <option value="none">Человек vs Человек</option>
                 <option value="first">ИИ за P1 (первый)</option>
@@ -112,44 +116,42 @@
                 <option value="both">ИИ vs ИИ</option>
               </select>
             </label>
-            <label> Глубина ИИ:
-              <input id="depth" class="input" type="number" min="1" max="10" value="6"/>
+            <label>Глубина ИИ:
+              <input id="depth" class="input" type="number" min="1" max="10" value="6">
             </label>
-            <label> Лунок:
-              <input id="pits" class="input" type="number" min="4" max="9" value="6"/>
+            <label>Лунок:
+              <input id="pits" class="input" type="number" min="4" max="9" value="6">
             </label>
-            <label> Камней:
-              <input id="seeds" class="input" type="number" min="1" max="10" value="6"/>
+            <label>Камней:
+              <input id="seeds" class="input" type="number" min="1" max="10" value="6">
             </label>
             <button id="apply" class="ghost">Применить</button>
           </div>
           <div class="status" id="status">Готово</div>
-          <div class="badge" id="badge"><span aria-hidden>🟢</span><span>Идёт игра</span></div>
+          <div class="badge" id="badge">🟢 Идёт игра</div>
 
           <details class="rules" open>
             <summary>Правила и как играть</summary>
             <div class="content">
               <ol>
                 <li><b>Поле:</b> у каждого по <i>N</i> лунок (по умолчанию 6). Справа — ваш склад.</li>
-                <li><b>Ход:</b> нажмите на свою лунку. Все камни из неё раскладываются по одной в следующие лунки против часовой стрелки, пропуская склад соперника.</li>
+                <li><b>Ход:</b> нажмите на свою лунку. Камни из неё раскладываются по одной в следующие лунки против часовой стрелки, пропуская склад соперника.</li>
                 <li><b>Бонусный ход:</b> если последний камень попал в ваш склад — ходите ещё раз.</li>
-                <li><b>Захват:</b> если последний камень попал в вашу пустую лунку, а напротив у соперника есть камни — заберите их плюс ваш последний в свой склад.</li>
-                <li><b>Конец игры:</b> когда одна сторона опустела. Оставшиеся камни у противника идут в его склад. Побеждает тот, у кого в складе больше.</li>
+                <li><b>Захват:</b> если последний камень попал в вашу пустую лунку, а напротив есть камни — заберите их плюс ваш последний в свой склад.</li>
+                <li><b>Конец игры:</b> когда одна сторона опустела; оставшиеся камни у другой стороны идут в её склад. Побеждает тот, у кого больше в складе.</li>
               </ol>
-              <p><b>Подсказка:</b> меняйте режим (Ч-Ч, ИИ) и параметры в блоке «Настройки».</p>
             </div>
           </details>
         </section>
 
         <section class="card" aria-label="Игровое поле">
-          <div class="board" id="boardTop" style="margin-bottom:18px"></div>
-          <div class="board" id="boardBottom"></div>
+          <div id="root"></div>
         </section>
       </div>
 
       <footer>
-        Сделано на React (CDN). Работает офлайн после первого визита. Репозиторий:
-        <a class="link" href="https://github.com/DizzyZ7/kalah" target="_blank" rel="noopener">DizzyZ7/kalah</a>
+        Сделано на React (CDN). Работает офлайн после первого визита.
+        Репозиторий: <a class="link" href="https://github.com/DizzyZ7/kalah" target="_blank" rel="noopener">DizzyZ7/kalah</a>
       </footer>
     </div>
 
@@ -159,15 +161,14 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
     <script type="module">
-      const { useEffect, useRef, useState } = React;
+      const { useEffect, useState, useRef } = React;
 
-      // --- utils ---
+      // utils
       const vibrate = ms => { try{ navigator.vibrate?.(ms) }catch(_){} };
       const save = (k,v)=> localStorage.setItem(k, JSON.stringify(v));
       const load = (k,d)=> { try{ return JSON.parse(localStorage.getItem(k)) ?? d } catch{ return d } };
-      function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.hidden=false; clearTimeout(window.__toast); window.__toast=setTimeout(()=> t.hidden=true, 1400); }
 
-      // --- Kalah logic ---
+      // core logic
       const makeInitial = (n=6, seeds=6) => ({ n, board: Array(2*n).fill(seeds).concat([0,0]), player:0, terminal:false });
       const pitsRange = (st,p)=> p===0 ? [...Array(st.n).keys()] : [...Array(st.n).keys()].map(i=>i+st.n);
       const isOwnPit = (st,idx,p=st.player)=> pitsRange(st,p).includes(idx);
@@ -198,10 +199,9 @@
       const score = st => [st.board[2*st.n], st.board[2*st.n+1]];
       const winner = st => { if(!st.terminal) return null; const [a,b]=score(st); return a===b?-1:(a>b?0:1); };
 
-      // simple minimax
+      // AI
       const evalState=(st,pov)=>{ const n=st.n; const my=st.board[2*n+pov], op=st.board[2*n+(1-pov)];
-        const mySide=pitsRange(st,pov).reduce((a,i)=>a+st.board[i],0);
-        return (my-op)*100 + Math.floor(0.2*mySide); };
+        const mySide=pitsRange(st,pov).reduce((a,i)=>a+st.board[i],0); return (my-op)*100 + Math.floor(0.2*mySide); };
       const minimax=(st,depth,pov,alpha=-1e9,beta=1e9)=>{
         if(depth===0||st.terminal) return [evalState(st,pov),null];
         const moves=legalMoves(st); if(!moves.length) return [evalState(st,pov),null];
@@ -220,187 +220,117 @@
       };
       const chooseBestMove=(st,depth=6)=>{ const [,m]=minimax(st,depth,st.player); return m ?? legalMoves(st)[0]; };
 
-      // React
+      // React UI
       function Pit({idx,label,value,disabled,onClick}){
         return React.createElement('button',{
           className:'pit'+(disabled?' disabled':''), onClick:disabled?undefined:onClick,
           'aria-label':`Лунка ${label}, камней ${value}`, title:`Лунка ${label}`
-        },
-          React.createElement('span',{className:'idx'}, label),
-          React.createElement('span',{className:'val'}, value)
-        );
+        }, React.createElement('span',{className:'idx'},label),
+           React.createElement('span',{className:'val'},value));
       }
       function Store({label,value}){
         return React.createElement('div',{className:'store',role:'img','aria-label':`${label}: ${value}`},
           React.createElement('div',{className:'label'},label),
-          React.createElement('div',{className:'val'},value)
-        );
+          React.createElement('div',{className:'val'},value));
       }
-
-      function useKalah(initial){
-        const [conf,setConf] = useState(()=> load('kalah_conf', initial));
-        const [st,setSt] = useState(()=> load('kalah_state', makeInitial(conf.n, conf.seeds)));
-        const historyRef = useRef([]);
-
-        const isHumanToMove = (s) => {
-          const ai=conf.ai;
-          if(ai==='none') return true;
-          if(ai==='both') return false;
-          if(ai==='first' && s.player===0) return false;
-          if(ai==='second' && s.player===1) return false;
-          return true;
-        };
-
-        const step = (cur, i)=>{
-          try{
-            historyRef.current.push(cur);
-            const [nxt, extra]=applyMove(cur,i);
-            setSt(nxt); save('kalah_state',nxt); vibrate(10);
-            if(!nxt.terminal){ if(!extra && !isHumanToMove(nxt)) think(nxt); if(extra && !isHumanToMove(nxt)) think(nxt); }
-          }catch(_){}
-        };
-
-        const think = (cur)=>{
-          setTimeout(()=>{
-            const m=chooseBestMove(cur, conf.depth);
-            const [nxt, extra]=applyMove(cur,m);
-            setSt(nxt); save('kalah_state',nxt);
-            if(!nxt.terminal && (extra || !isHumanToMove(nxt))) think(nxt);
-          }, 80);
-        };
-
-        useEffect(()=>{ if(!isHumanToMove(st)) think(st); }, []); // авто-ход ИИ в начале, если нужно
-
-        // controls
-        useEffect(()=>{
-          const setStatus = ()=>{
-            const status = st.terminal ? (winner(st)===-1?'Ничья':`Победил Игрок ${winner(st)+1}`) : `Ходит Игрок ${st.player+1}`;
-            document.getElementById('status').textContent = status;
-            document.getElementById('badge').innerHTML = st.terminal? '🏁 Игра окончена' : (st.player===0? '🟢 Ход P1':'🔵 Ход P2');
-          };
-          setStatus();
-        }, [st]);
-
-        // public api
-        return { st, setSt, conf, setConf, step, isHumanToMove };
-      }
-
-      function Board({st, onPit}){
+      function Board({st,onPit}){
         const n=st.n; const legal=new Set(legalMoves(st));
-        const top = st.board.slice(n,2*n);    // слева направо
-        const bottom = st.board.slice(0,n);   // слева направо
-        const [s0,s1] = score(st);
-        const pitsStyle = { gridTemplateColumns: `repeat(${n}, minmax(0,1fr))` };
+        const top=st.board.slice(n,2*n);      // слева направо
+        const bottom=st.board.slice(0,n);     // слева направо
+        const [s0,s1]=score(st);
+        const pitsStyle={gridTemplateColumns:`repeat(${n},minmax(0,1fr))`};
 
         return React.createElement(React.Fragment,null,
           React.createElement('div',{className:'board'},
             React.createElement(Store,{label:'Склад P2',value:s1}),
             React.createElement('div',{className:'pits',style:pitsStyle},
-              top.map((v,i)=>{
-                const idx=n+i; const disabled=!legal.has(idx)||st.terminal;
-                return React.createElement(Pit,{key:'t'+i,idx,label:(n-i),value:v,disabled,onClick:()=>onPit(idx)});
-              })
+              top.map((v,i)=>{ const idx=n+i; const disabled=!legal.has(idx)||st.terminal;
+                return React.createElement(Pit,{key:'t'+i,idx,label:(n-i),value:v,disabled,onClick:()=>onPit(idx)}); })
             ),
             React.createElement('div')
           ),
-          React.createElement('div',{className:'board',style:{marginTop:18}},
+          React.createElement('div',{className:'board row-gap'},
             React.createElement('div'),
             React.createElement('div',{className:'pits',style:pitsStyle},
-              bottom.map((v,i)=>{
-                const idx=i; const disabled=!legal.has(idx)||st.terminal;
-                return React.createElement(Pit,{key:'b'+i,idx,label:(i+1),value:v,disabled,onClick:()=>onPit(idx)});
-              })
+              bottom.map((v,i)=>{ const idx=i; const disabled=!legal.has(idx)||st.terminal;
+                return React.createElement(Pit,{key:'b'+i,idx,label:(i+1),value:v,disabled,onClick:()=>onPit(idx)}); })
             ),
             React.createElement(Store,{label:'Склад P1',value:s0})
           )
         );
       }
 
-      function App(){
-        const { st, setSt, conf, setConf, step, isHumanToMove } = useKalah({ ai:'second', depth:6, n:6, seeds:6 });
-
-        // mount both rows
-        useEffect(()=>{
-          const topRoot = ReactDOM.createRoot(document.getElementById('boardTop'));
-          const bottomRoot = ReactDOM.createRoot(document.getElementById('boardBottom'));
-          const boardEl = React.createElement(Board,{st, onPit:(i)=>{ if(isHumanToMove(st)) step(st,i); }});
-          topRoot.render(boardEl);
-          bottomRoot.render(React.createElement(React.Fragment));
-        }, [st]);
-
-        // controls (outside react tree)
-        useEffect(()=>{
-          const elAi = document.getElementById('aiMode');
-          const elDepth = document.getElementById('depth');
-          const elPits = document.getElementById('pits');
-          const elSeeds = document.getElementById('seeds');
-          const elApply = document.getElementById('apply');
-          const elNew = document.getElementById('newGame');
-          const elUndo = document.getElementById('undo');
-
-          // init from storage
-          const cfg = JSON.parse(localStorage.getItem('kalah_conf')||'{}');
-          if(cfg.ai) elAi.value = cfg.ai;
-          if(cfg.depth) elDepth.value = cfg.depth;
-          if(cfg.n) elPits.value = cfg.n;
-          if(cfg.seeds) elSeeds.value = cfg.seeds;
-
-          const apply = ()=>{
-            localStorage.removeItem('kalah_state');
-            const next = {
-              ai: elAi.value,
-              depth: parseInt(elDepth.value||'6',10),
-              n: parseInt(elPits.value||'6',10),
-              seeds: parseInt(elSeeds.value||'6',10)
-            };
-            localStorage.setItem('kalah_conf', JSON.stringify(next));
-            // полная перезагрузка проще, чем перезапуск дерева тут
-            location.reload();
+      function useKalah(initial){
+        const [conf,setConf]=useState(()=> load('kalah_conf',initial));
+        const [st,setSt]=useState(()=> load('kalah_state', makeInitial(conf.n,conf.seeds)));
+        const isHumanToMove = (s)=>{
+          const ai=conf.ai; if(ai==='none') return true;
+          if(ai==='both') return false;
+          if(ai==='first'&&s.player===0) return false;
+          if(ai==='second'&&s.player===1) return false;
+          return true;
+        };
+        const step=(cur,i)=>{
+          try{
+            const [nxt,extra]=applyMove(cur,i);
+            setSt(nxt); save('kalah_state',nxt); vibrate(10);
+            if(!nxt.terminal){ if(!extra && !isHumanToMove(nxt)) think(nxt); if(extra && !isHumanToMove(nxt)) think(nxt); }
+          }catch(_){}
+        };
+        const think=(cur)=>{
+          setTimeout(()=>{
+            const m=chooseBestMove(cur,conf.depth);
+            const [nxt,extra]=applyMove(cur,m);
+            setSt(nxt); save('kalah_state',nxt);
+            if(!nxt.terminal && (extra || !isHumanToMove(nxt))) think(nxt);
+          },80);
+        };
+        useEffect(()=>{ // статус в панели
+          const elS=document.getElementById('status');
+          const elB=document.getElementById('badge');
+          const setStatus=()=>{
+            elS.textContent = st.terminal ? (winner(st)===-1?'Ничья':`Победил Игрок ${winner(st)+1}`) : `Ходит Игрок ${st.player+1}`;
+            elB.textContent = st.terminal? '🏁 Игра окончена' : (st.player===0?'🟢 Ход P1':'🔵 Ход P2');
           };
-
-          const newGame = ()=>{ localStorage.removeItem('kalah_state'); toast('Новая игра'); location.reload(); };
-
-          elApply.onclick = apply;
-          elNew.onclick = newGame;
-          elUndo.onclick = ()=> toast('Отмена доступна в текущей сессии хода');
-
-          return ()=>{ elApply.onclick = elNew.onclick = elUndo.onclick = null; };
-        }, []);
-
-        return null;
+          setStatus();
+        },[st]);
+        useEffect(()=>{ if(!isHumanToMove(st)) think(st); },[]);
+        return { st, setSt, conf, setConf, step, isHumanToMove };
       }
 
-      // boot
-      ReactDOM.createRoot(document.createElement('div')); // ensure env
-      const mountRoot = ReactDOM.createRoot(document.createElement('div'));
-      // mount real app
-      ReactDOM.createRoot(document.getElementById('boardTop')); // placeholder
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      ReactDOM.createRoot(document.getElementById('boardTop')); // ensure root created
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      ReactDOM.createRoot(document.getElementById('boardTop'));
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      // main app
-      ReactDOM.createRoot(document.getElementById('boardTop')); // no-op
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      ReactDOM.createRoot(document.getElementById('boardTop'));
-      // actually render App once
-      ReactDOM.createRoot(document.createElement('div'));
-      ReactDOM.createRoot(document.getElementById('boardTop'));
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      // ok, mount
-      ReactDOM.createRoot(document.getElementById('boardTop'));
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      ReactDOM.createRoot(document.getElementById('boardTop'));
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      ReactDOM.createRoot(document.getElementById('boardTop'));
-      // Just mount App (one instance)
-      ReactDOM.createRoot(document.getElementById('boardTop')); // placeholders above keep mobile layout stable
-      ReactDOM.createRoot(document.getElementById('boardBottom'));
-      const appRoot = ReactDOM.createRoot(document.getElementById('boardTop').parentElement); // section .card
-      appRoot.render(React.createElement(App));
+      function App(){
+        const { st, conf, setConf, step, isHumanToMove } = useKalah({ ai:'second', depth:6, n:6, seeds:6 });
+        // внешний UI-кнопки
+        useEffect(()=>{
+          const elAi=document.getElementById('aiMode');
+          const elDepth=document.getElementById('depth');
+          const elPits=document.getElementById('pits');
+          const elSeeds=document.getElementById('seeds');
+          const elApply=document.getElementById('apply');
+          const elNew=document.getElementById('newGame');
+          const elUndo=document.getElementById('undo');
 
-      // Offline cache
+          const cfg=JSON.parse(localStorage.getItem('kalah_conf')||'{}');
+          if(cfg.ai) elAi.value=cfg.ai; if(cfg.depth) elDepth.value=cfg.depth;
+          if(cfg.n) elPits.value=cfg.n; if(cfg.seeds) elSeeds.value=cfg.seeds;
+
+          elApply.onclick=()=>{
+            localStorage.removeItem('kalah_state');
+            const next={ ai:elAi.value, depth:+elDepth.value||6, n:+elPits.value||6, seeds:+elSeeds.value||6 };
+            localStorage.setItem('kalah_conf', JSON.stringify(next));
+            location.reload();
+          };
+          elNew.onclick=()=>{ localStorage.removeItem('kalah_state'); location.reload(); };
+          elUndo.onclick=()=>{ /* упрощённо */ };
+          return ()=>{ elApply.onclick=elNew.onclick=elUndo.onclick=null; };
+        },[]);
+
+        return React.createElement(Board, { st, onPit:(i)=>{ if(isHumanToMove(st)) step(st,i); } });
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+
+      // offline cache
       if('serviceWorker' in navigator){
         const sw = URL.createObjectURL(new Blob([`
           self.addEventListener('install', e=>{ e.waitUntil(caches.open('kalah-v1').then(c=>c.addAll(['./']))); self.skipWaiting(); });
